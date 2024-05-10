@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, /*useState*/ } from 'react';
+import { useProductContext } from '../context/ProductContext';
 
 const DateInput = () => {
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  // const [startDate, setStartDate] = useState('');
+  // const [endDate, setEndDate] = useState('');
+
+  const { startDate, endDate, changeEndDate, changeStartDate } = useProductContext()
 
   useEffect(() => {
     console.log('Başlangıç tarihi değişti:', startDate);
@@ -18,7 +21,7 @@ const DateInput = () => {
           className='block p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300'
           type='date'
           value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
+          onChange={(e) => changeStartDate(e.target.value)}
           placeholder='ör: 11-05-2023'
         />
       </div>
@@ -31,7 +34,7 @@ const DateInput = () => {
           className='block p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300'
           type='date'
           value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
+          onChange={(e) => changeEndDate(e.target.value)}
           placeholder='ör: 11-05-2023'
         />
       </div>

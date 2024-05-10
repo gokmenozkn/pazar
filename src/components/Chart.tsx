@@ -50,8 +50,6 @@ function Chart({ data }: { data: YearlyData[] }) {
     ],
   });
 
-  console.log('Chart data:', chartData);
-
   useEffect(() => {
     setChartData((prevData) => ({
       ...prevData,

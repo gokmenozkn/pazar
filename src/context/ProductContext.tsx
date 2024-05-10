@@ -9,6 +9,10 @@ interface IProductContext {
   onProductChange: (p: string) => void;
   screen: Screen;
   changeScreen: (sc: Screen) => void;
+  startDate: string;
+  endDate: string;
+  changeStartDate: (dt: string) => void;
+  changeEndDate: (dt: string) => void;
 }
 
 type Screen = 'day' | 'month' | 'year';
@@ -20,6 +24,8 @@ function ProductProvider({ children }: { children: React.ReactNode }) {
   const [selectedYear, setSelectedYear] = useState('2024');
   const [selectedProduct, setSelectedProduct] = useState('');
   const [screen, setScreen] = useState<Screen>('year');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   function onYearChange(year: string) {
     setSelectedYear(year);
@@ -35,6 +41,14 @@ function ProductProvider({ children }: { children: React.ReactNode }) {
     setScreen(sc);
   }
 
+  function changeStartDate(date: string) {
+    setStartDate(date);
+  }
+
+  function changeEndDate(date: string) {
+    setEndDate(date);
+  }
+
   const contextValue: IProductContext = {
     productNames,
     selectedYear,
@@ -43,6 +57,10 @@ function ProductProvider({ children }: { children: React.ReactNode }) {
     onProductChange,
     screen,
     changeScreen,
+    startDate,
+    endDate,
+    changeStartDate,
+    changeEndDate,
   };
 
   return (

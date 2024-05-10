@@ -6,23 +6,22 @@ import MonthSelect from '../components/MonthSelect';
 import ProductSelect from '../components/ProductSelect';
 import Chart from '../components/Chart';
 import DateInput from '../components/DateInput';
+import { getYearlyData } from '../api';
 
 export default function Products() {
   const { selectedProduct, selectedYear } = useProductContext();
   const [yearlyData, setYearlyData] = useState<YearlyData[]>([]);
   const [activeButton, setActiveButton] = useState(0);
-  const [dailySelected, setDailySelected] = useState(true);
 
   const activeClass = 'bg-blue-700';
   const passiveClass = 'bg-blue-500';
 
-  const handleRequest = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_URL}/getOrt/${selectedProduct}/${selectedYear}`
-    );
-    const data = await response.json();
-    setYearlyData(data.Aylik_Ortalamalar);
-    console.log(data.Aylik_Ortalamalar);
+  const handleRequest = () => {
+    getYearlyData(selectedProduct, selectedYear)
+      .then((data) => {
+        setYearlyData(data.Aylik_Ortalamalar);
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -81,7 +80,7 @@ export default function Products() {
       </div>
 
       {/* Chart */}
-      <Chart data={yearlyData} />
+      {yearlyData.length > 0 ? <Chart data={yearlyData} /> : null}
     </div>
   );
 }
