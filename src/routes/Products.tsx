@@ -1,15 +1,17 @@
-import { useState } from "react";
-import { useProductContext } from "../context/ProductContext";
-import { YearlyData } from "../types/ProductType";
-import YearSelect from "../components/YearSelect";
-import MonthSelect from "../components/MonthSelect";
-import ProductSelect from "../components/ProductSelect";
-import Chart from "../components/Chart";
+import { useState } from 'react';
+import { useProductContext } from '../context/ProductContext';
+import { YearlyData } from '../types/ProductType';
+import YearSelect from '../components/YearSelect';
+import MonthSelect from '../components/MonthSelect';
+import ProductSelect from '../components/ProductSelect';
+import Chart from '../components/Chart';
+import DateInput from '../components/DateInput';
 
 export default function Products() {
   const { selectedProduct, selectedYear } = useProductContext();
   const [yearlyData, setYearlyData] = useState<YearlyData[]>([]);
   const [activeButton, setActiveButton] = useState(0);
+  const [dailySelected, setDailySelected] = useState(true);
 
   const activeClass = 'bg-blue-700';
   const passiveClass = 'bg-blue-500';
@@ -58,9 +60,9 @@ export default function Products() {
       </div>
 
       {/* search */}
-      <div className='flex items-center justify-center gap-x-5 mt-5'>
+      <div className='flex items-center justify-center gap-x-5 mt-5 mb-8 h-24'>
         {/* Year Toggle */}
-        <YearSelect />
+        {activeButton === 0 ? <DateInput /> : <YearSelect />}
 
         {/* Month selection */}
         {activeButton === 1 ? <MonthSelect /> : null}
@@ -68,12 +70,14 @@ export default function Products() {
         {/* Product Toggle */}
         <ProductSelect />
 
-        <button
-          className='bg-purple-700 hover:bg-purple-800 text-white text-lg py-3 px-6 rounded'
-          onClick={handleRequest}
-        >
-          Getir
-        </button>
+        <div className='h-full items-end flex'>
+          <button
+            className='bg-purple-700 hover:bg-purple-800 text-white text-lg py-3 px-6 rounded'
+            onClick={handleRequest}
+          >
+            Getir
+          </button>
+        </div>
       </div>
 
       {/* Chart */}
