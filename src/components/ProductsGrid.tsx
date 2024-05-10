@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import BananaImg from '../assets/banana.jpg';
 import Button from './ui/Button';
 
@@ -37,7 +38,9 @@ const ProductsGrid = () => {
           ))}
         </div>
         <div className='flex items-center justify-center mt-14'>
-          <Button text='Daha fazla' />
+          <Link to='/products'>
+            <Button text='Daha fazla' />
+          </Link>
         </div>
       </div>
     </section>
