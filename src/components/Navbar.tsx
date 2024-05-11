@@ -2,7 +2,7 @@ import Button from './ui/Button';
 
 export default function Navbar() {
   return (
-    <nav className='relative w-full bg-black/70 z-10'>
+    <nav className='relative w-full z-10'>
       <div className='max-w-6xl mx-auto absolute inset-x-0 top-0'>
         <div className='flex justify-between items-center p-5'>
           <div className='brand uppercase tracking-[1rem] text-xl text-white font-bold'>
