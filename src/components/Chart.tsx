@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { YearlyData } from '../types/ProductType';
 import { calculatePercentageChange } from '../utils/calcPercentage';
 
 ChartJS.register(
@@ -36,9 +35,8 @@ const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-function Chart({ data }: { data: YearlyData[] }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function Chart({ data }: { data: any[] }) {
   const [change, setChange] = useState(0);
   const [chartData, setChartData] = useState({
     labels: [''],
