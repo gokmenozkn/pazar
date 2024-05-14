@@ -4,36 +4,36 @@ import { YearlyData } from '../../types/ProductType';
 import DateInput from '../../components/DateInput';
 import ProductSelect from '../../components/ProductSelect';
 import Chart from '../../components/Chart';
-import { getAvgBetweenSelectedDays } from '../../api';
+import { getAvgBetweenSelectedDays, predictNextMonth } from '../../api';
 import { useProductContext } from '../../context/ProductContext';
 import Footer from '../../components/Footer';
-import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // import MonthSelect from '../../components/MonthSelect';
 // import YearSelect from '../../components/YearSelect';
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 const Layout = () => {
   const { selectedProduct, startDate, endDate } = useProductContext();
 
   const [yearlyData, setYearlyData] = useState<YearlyData[]>([]);
-  // const [activeButton, setActiveButton] = useState(0);
-
-  const query = useQuery();
   const navigate = useNavigate();
 
   const handleRequest = () => {
     navigate(
       `/products?startDate=${startDate}&endDate=${endDate}&productName=${selectedProduct}`
     );
+
+    // get average
     getAvgBetweenSelectedDays(selectedProduct, startDate, endDate)
       .then((data) => {
         console.log('Data:', data);
         setYearlyData(data.Gunluk_Ortalamalar);
       })
+      .catch((err) => console.error(err));
+
+    // predict next month
+    predictNextMonth(selectedProduct)
+      .then((data) => console.log(data))
       .catch((err) => console.error(err));
   };
 
@@ -50,34 +50,6 @@ const Layout = () => {
           Hal Fiyatları veri akışı doğrultusunda güncellenmektedir.
         </p>
         <hr className='mb-10' />
-
-        {/* günlük, aylık, yıllık butonlar */}
-        {/* <div className='flex justify-between items-center gap-x-5 mt-5'>
-        <button
-          className={`${
-            activeButton === 0 ? activeClass : passiveClass
-          } text-white text-lg w-full py-3 hover:bg-blue-700`}
-          onClick={() => setActiveButton(0)}
-        >
-          Günlük
-        </button>
-        <button
-          className={`${
-            activeButton === 1 ? activeClass : passiveClass
-          } text-white text-lg w-full py-3 hover:bg-blue-700`}
-          onClick={() => setActiveButton(1)}
-        >
-          Aylık
-        </button>
-        <button
-          className={`${
-            activeButton === 2 ? activeClass : passiveClass
-          } text-white text-lg w-full py-3 hover:bg-blue-700`}
-          onClick={() => setActiveButton(2)}
-        >
-          Yıllık
-        </button>
-      </div> */}
 
         {/* search */}
         <div className='flex items-center justify-center gap-x-5 mt-5 mb-8 h-24'>
