@@ -8,6 +8,7 @@ import { getAvgBetweenSelectedDays, predictNextMonth } from '../../api';
 import { useProductContext } from '../../context/ProductContext';
 import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import { calculateAvg } from '../../utils/PredictionAvg';
 
 // import MonthSelect from '../../components/MonthSelect';
 // import YearSelect from '../../components/YearSelect';
@@ -16,6 +17,8 @@ const Layout = () => {
   const { selectedProduct, startDate, endDate } = useProductContext();
 
   const [yearlyData, setYearlyData] = useState<YearlyData[]>([]);
+  const [prediction, setPrediction] = useState(0);
+
   const navigate = useNavigate();
 
   const handleRequest = () => {
@@ -33,7 +36,10 @@ const Layout = () => {
 
     // predict next month
     predictNextMonth(selectedProduct)
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data);
+        setPrediction(calculateAvg(data.data));
+      })
       .catch((err) => console.error(err));
   };
 
@@ -74,6 +80,16 @@ const Layout = () => {
 
         {/* Chart */}
         {yearlyData.length > 0 ? <Chart data={yearlyData} /> : null}
+
+        {/* tahmin */}
+        {yearlyData && yearlyData.length > 0 ? (
+          <div id='prediction' className='mt-4 text-xl font-semibold'>
+            <span className='font-light mr-2'>
+              2024 Haziran ayında beklenen değer:
+            </span>
+            {prediction.toFixed(3)}₺
+          </div>
+        ) : null}
       </div>
 
       {/* footer */}
